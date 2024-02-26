@@ -1,0 +1,13 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/url-158cf104af74c788.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/encoding.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/host.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/origin.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/path_segments.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/parser.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/slicing.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/form_urlencoded.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/quirks.rs
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/url-158cf104af74c788.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/encoding.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/host.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/origin.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/path_segments.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/parser.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/slicing.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/form_urlencoded.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/quirks.rs
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/encoding.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/host.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/origin.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/path_segments.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/parser.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/slicing.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/form_urlencoded.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/url-1.7.2/src/quirks.rs:

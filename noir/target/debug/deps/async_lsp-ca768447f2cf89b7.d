@@ -1,0 +1,16 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/async_lsp-ca768447f2cf89b7.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/concurrency.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/panic.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/router.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/server.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/client_monitor.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/stdio.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/tracing.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/omni_trait.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/./omni_trait_generated.rs
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/async_lsp-ca768447f2cf89b7.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/concurrency.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/panic.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/router.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/server.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/client_monitor.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/stdio.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/tracing.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/omni_trait.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/./omni_trait_generated.rs
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/concurrency.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/panic.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/router.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/server.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/client_monitor.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/stdio.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/tracing.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/omni_trait.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-lsp-0.1.0/src/./omni_trait_generated.rs:
+
+# env-dep:CARGO_PKG_VERSION=0.1.0

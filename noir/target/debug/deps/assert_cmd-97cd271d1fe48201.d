@@ -1,0 +1,11 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/assert_cmd-97cd271d1fe48201.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/assert.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/cargo.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/cmd.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/output.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/color.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/../README.md
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/assert_cmd-97cd271d1fe48201.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/assert.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/cargo.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/cmd.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/output.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/color.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/../README.md
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/assert.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/cargo.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/cmd.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/output.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/color.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/assert_cmd-2.0.12/src/../README.md:

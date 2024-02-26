@@ -1,0 +1,13 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/semver-9e326a692787e54f.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/backport.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/display.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/error.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/eval.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/identifier.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/impls.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/parse.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/serde.rs
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/semver-9e326a692787e54f.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/backport.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/display.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/error.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/eval.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/identifier.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/impls.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/parse.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/serde.rs
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/backport.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/display.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/error.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/eval.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/identifier.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/impls.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/parse.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.20/src/serde.rs:

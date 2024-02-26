@@ -1,0 +1,12 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/signature-aef618d0bf8f4289.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/hazmat.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/error.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/keypair.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/signature.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/signer.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/verifier.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/../README.md
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/signature-aef618d0bf8f4289.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/hazmat.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/error.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/keypair.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/signature.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/signer.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/verifier.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/../README.md
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/hazmat.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/error.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/keypair.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/signature.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/signer.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/verifier.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signature-1.6.4/src/../README.md:

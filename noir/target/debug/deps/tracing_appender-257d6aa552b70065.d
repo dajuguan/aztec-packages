@@ -1,0 +1,10 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/tracing_appender-257d6aa552b70065.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/non_blocking.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/rolling.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/rolling/builder.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/worker.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/sync.rs
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/tracing_appender-257d6aa552b70065.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/non_blocking.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/rolling.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/rolling/builder.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/worker.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/sync.rs
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/non_blocking.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/rolling.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/rolling/builder.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/worker.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-appender-0.2.3/src/sync.rs:

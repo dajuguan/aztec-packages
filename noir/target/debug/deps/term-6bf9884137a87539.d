@@ -1,0 +1,10 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/term-6bf9884137a87539.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/mod.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/searcher.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parser/compiled.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parser/names.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parm.rs
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/term-6bf9884137a87539.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/mod.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/searcher.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parser/compiled.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parser/names.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parm.rs
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/mod.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/searcher.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parser/compiled.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parser/names.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/term-0.7.0/src/terminfo/parm.rs:

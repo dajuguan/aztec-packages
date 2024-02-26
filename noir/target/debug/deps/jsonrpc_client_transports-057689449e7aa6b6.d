@@ -1,0 +1,8 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/jsonrpc_client_transports-057689449e7aa6b6.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/mod.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/duplex.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/local.rs
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/jsonrpc_client_transports-057689449e7aa6b6.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/mod.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/duplex.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/local.rs
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/mod.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/duplex.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/jsonrpc-client-transports-18.0.0/src/transports/local.rs:

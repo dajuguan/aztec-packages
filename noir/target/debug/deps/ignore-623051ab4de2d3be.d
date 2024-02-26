@@ -1,0 +1,12 @@
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/ignore-623051ab4de2d3be.rmeta: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/default_types.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/dir.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/gitignore.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/overrides.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/pathutil.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/types.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/walk.rs
+
+/Users/zpedro/Documents/GitHub/aztec-packages/noir/target/debug/deps/ignore-623051ab4de2d3be.d: /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/lib.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/default_types.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/dir.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/gitignore.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/overrides.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/pathutil.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/types.rs /Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/walk.rs
+
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/lib.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/default_types.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/dir.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/gitignore.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/overrides.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/pathutil.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/types.rs:
+/Users/zpedro/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ignore-0.4.20/src/walk.rs:
