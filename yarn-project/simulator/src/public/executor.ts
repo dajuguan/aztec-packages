@@ -1,4 +1,4 @@
-import { GlobalVariables, Header, PublicCircuitPublicInputs } from '@aztec/circuits.js';
+import { AztecAddress, FunctionSelector, GlobalVariables, Header, PublicCircuitPublicInputs } from '@aztec/circuits.js';
 import { createDebugLogger } from '@aztec/foundation/log';
 
 import { Oracle, acvm, extractCallStack, extractReturnWitness } from '../acvm/index.js';
@@ -168,5 +168,13 @@ export class PublicExecutor {
     const result = await simulator.execute();
     const newWorldState = context.persistableState.flush();
     return temporaryConvertAvmResults(execution, newWorldState, result);
+  }
+
+  /**
+   * Getter for access to ContractDb table
+   * @param execution - The execution to run.
+   */
+  public getContractBytecode(address: AztecAddress, selector: FunctionSelector): Promise<Buffer | undefined> {
+    return this.contractsDb.getBytecode(address, selector);
   }
 }
