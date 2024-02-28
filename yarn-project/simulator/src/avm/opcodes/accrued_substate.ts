@@ -1,5 +1,5 @@
 import type { AvmContext } from '../avm_context.js';
-import { Uint8 } from '../avm_memory_types.js';
+import { Field, Uint8 } from '../avm_memory_types.js';
 import { InstructionExecutionError } from '../errors.js';
 import { NullifierCollisionError } from '../journal/nullifiers.js';
 import { Opcode, OperandType } from '../serialization/instruction_serialization.js';
@@ -81,6 +81,33 @@ export class EmitNullifier extends Instruction {
   }
 }
 
+export class ReadL1ToL2Message extends Instruction {
+  static type: string = 'READL1TOL2MSG';
+  static readonly opcode: Opcode = Opcode.READL1TOL2MSG;
+  // Informs (de)serialization. See Instruction.deserialize.
+  static readonly wireFormat = [OperandType.UINT8, OperandType.UINT8, OperandType.UINT32, OperandType.UINT32, OperandType.UINT32, OperandType.UINT32, OperandType.UINT32];
+
+  constructor(private indirect: number, private msgKeyOffset: number, private msgLeafIndexOffset: number, private existsOffset: number, private dstOffset: number, private msgSize: number) {
+    super();
+  }
+
+  async execute(context: AvmContext): Promise<void> {
+    if (context.environment.isStaticCall) {
+      throw new StaticCallStorageAlterError();
+    }
+
+    const msgKey = context.machineState.memory.get(this.msgKeyOffset).toFr();
+    const msgLeafIndex = context.machineState.memory.get(this.msgLeafIndexOffset).toFr();
+    // read message
+    const [exists, message] = await context.persistableState.readL1ToL2Message(msgKey, msgLeafIndex);
+    // TODO(4813): assert that message size matches?
+    context.machineState.memory.set(this.existsOffset, exists ? new Uint8(1) : new Uint8(0));
+    context.machineState.memory.setSlice(this.dstOffset, message.map(f => new Field(f)));
+
+    context.machineState.incrementPc();
+  }
+}
+
 export class EmitUnencryptedLog extends Instruction {
   static type: string = 'EMITUNENCRYPTEDLOG';
   static readonly opcode: Opcode = Opcode.EMITUNENCRYPTEDLOG;
@@ -109,7 +136,7 @@ export class SendL2ToL1Message extends Instruction {
   // Informs (de)serialization. See Instruction.deserialize.
   static readonly wireFormat = [OperandType.UINT8, OperandType.UINT8, OperandType.UINT32, OperandType.UINT32];
 
-  constructor(private indirect: number, private msgOffset: number, private msgSize: number) {
+  constructor(private indirect: number, private recipientOffset: number, private contentOffset: number) {
     super();
   }
 
@@ -118,8 +145,9 @@ export class SendL2ToL1Message extends Instruction {
       throw new StaticCallStorageAlterError();
     }
 
-    const msg = context.machineState.memory.getSlice(this.msgOffset, this.msgSize).map(f => f.toFr());
-    context.persistableState.writeL1Message(msg);
+    const recipient = context.machineState.memory.get(this.recipientOffset).toFr();
+    const content = context.machineState.memory.get(this.contentOffset).toFr();
+    context.persistableState.writeL1Message(recipient, content);
 
     context.machineState.incrementPc();
   }

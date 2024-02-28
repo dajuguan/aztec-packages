@@ -5,6 +5,7 @@ import { MockProxy, mock } from 'jest-mock-extended';
 import { CommitmentsDB, PublicContractsDB, PublicStateDB } from '../../index.js';
 import { HostStorage } from './host_storage.js';
 import { AvmPersistableStateManager, JournalData } from './journal.js';
+import { EthAddress } from '@aztec/circuits.js';
 
 describe('journal', () => {
   let publicDb: MockProxy<PublicStateDB>;
@@ -91,11 +92,12 @@ describe('journal', () => {
       expect(journalUpdates.newNullifiers).toEqual([utxo]);
     });
     it('Should maintain l1 messages', () => {
-      const utxo = [new Fr(1)];
-      journal.writeL1Message(utxo);
+      const recipient = EthAddress.fromField(new Fr(1));
+      const utxo = new Fr(2);
+      journal.writeL1Message(recipient, utxo);
 
       const journalUpdates = journal.flush();
-      expect(journalUpdates.newL1Messages).toEqual([utxo]);
+      expect(journalUpdates.newL1Messages).toEqual([{recipient, content: utxo}]);
     });
   });
 
@@ -111,6 +113,7 @@ describe('journal', () => {
     const key = new Fr(2);
     const value = new Fr(1);
     const valueT1 = new Fr(2);
+    const recipient = EthAddress.fromField(new Fr(42));
     const commitment = new Fr(10);
     const commitmentT1 = new Fr(20);
     const logs = [new Fr(1), new Fr(2)];
@@ -120,7 +123,7 @@ describe('journal', () => {
     await journal.readStorage(contractAddress, key);
     journal.writeNoteHash(commitment);
     journal.writeLog(logs);
-    journal.writeL1Message(logs);
+    journal.writeL1Message(recipient, commitment);
     await journal.writeNullifier(contractAddress, commitment);
     await journal.checkNullifierExists(contractAddress, commitment);
 
@@ -129,7 +132,7 @@ describe('journal', () => {
     await childJournal.readStorage(contractAddress, key);
     childJournal.writeNoteHash(commitmentT1);
     childJournal.writeLog(logsT1);
-    childJournal.writeL1Message(logsT1);
+    childJournal.writeL1Message(recipient, commitmentT1);
     await childJournal.writeNullifier(contractAddress, commitmentT1);
     await childJournal.checkNullifierExists(contractAddress, commitmentT1);
 
@@ -155,7 +158,7 @@ describe('journal', () => {
 
     expect(journalUpdates.newNoteHashes).toEqual([commitment, commitmentT1]);
     expect(journalUpdates.newLogs).toEqual([logs, logsT1]);
-    expect(journalUpdates.newL1Messages).toEqual([logs, logsT1]);
+    expect(journalUpdates.newL1Messages).toEqual([{recipient, content: commitment}, {recipient, content: commitmentT1}]);
     expect(journalUpdates.nullifierChecks.map(c => [c.nullifier, c.exists])).toEqual([
       [commitment, true],
       [commitmentT1, true],
@@ -177,6 +180,7 @@ describe('journal', () => {
     const key = new Fr(2);
     const value = new Fr(1);
     const valueT1 = new Fr(2);
+    const recipient = EthAddress.fromField(new Fr(42));
     const commitment = new Fr(10);
     const commitmentT1 = new Fr(20);
     const logs = [new Fr(1), new Fr(2)];
@@ -188,7 +192,7 @@ describe('journal', () => {
     await journal.writeNullifier(contractAddress, commitment);
     await journal.checkNullifierExists(contractAddress, commitment);
     journal.writeLog(logs);
-    journal.writeL1Message(logs);
+    journal.writeL1Message(recipient, commitment);
 
     const childJournal = new AvmPersistableStateManager(journal.hostStorage, journal);
     childJournal.writeStorage(contractAddress, key, valueT1);
@@ -197,7 +201,7 @@ describe('journal', () => {
     await childJournal.writeNullifier(contractAddress, commitmentT1);
     await childJournal.checkNullifierExists(contractAddress, commitmentT1);
     childJournal.writeLog(logsT1);
-    childJournal.writeL1Message(logsT1);
+    childJournal.writeL1Message(recipient, commitmentT1);
 
     journal.rejectNestedCallState(childJournal);
 
@@ -229,7 +233,7 @@ describe('journal', () => {
 
     // Check that rejected Accrued Substate is absent
     expect(journalUpdates.newLogs).toEqual([logs]);
-    expect(journalUpdates.newL1Messages).toEqual([logs]);
+    expect(journalUpdates.newL1Messages).toEqual([{recipient, content: commitment}]);
   });
 
   it('Can fork and merge journals', () => {

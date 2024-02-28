@@ -1,6 +1,6 @@
 import { Fr } from '@aztec/foundation/fields';
 
-import { TracedNullifierCheck } from './trace_types.js';
+import { TracedL1toL2MessageRead, TracedNullifierCheck } from './trace_types.js';
 
 export class WorldStateAccessTrace {
   public accessCounter: number;
@@ -17,7 +17,7 @@ export class WorldStateAccessTrace {
   public nullifierChecks: TracedNullifierCheck[] = [];
   //public newNullifiers: TracedNullifier[] = [];
   public newNullifiers: Fr[] = [];
-  //public l1toL2MessageReads: TracedL1toL2MessageRead[] = [];
+  public l1toL2MessageReads: TracedL1toL2MessageRead[] = [];
   //public archiveChecks: TracedArchiveLeafCheck[] = [];
 
   constructor(parentTrace?: WorldStateAccessTrace) {
@@ -102,6 +102,20 @@ export class WorldStateAccessTrace {
     //};
     //this.newNullifiers.push(traced);
     this.newNullifiers.push(nullifier);
+    this.incrementAccessCounter();
+  }
+
+  public traceL1ToL2MessageRead(msgKey: Fr, msgLeafIndex: Fr, exists: boolean, message: Fr[]) {
+    // TODO(4805): check if some threshold is reached for max message reads
+    const traced: TracedL1toL2MessageRead = {
+      //callPointer: Fr.ZERO, // FIXME
+      leafIndex: msgLeafIndex,
+      msgKey: msgKey,
+      exists: exists,
+      message: message,
+      //endLifetime: Fr.ZERO, // FIXME
+    };
+    this.l1toL2MessageReads.push(traced);
     this.incrementAccessCounter();
   }
 

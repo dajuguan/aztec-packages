@@ -37,6 +37,19 @@ impl L1ToL2Message {
         }
     }
 
+    pub fn serialize(self) -> [Field; L1_TO_L2_MESSAGE_LENGTH] {
+        [
+            self.sender.to_field(),
+            self.chainId,
+            self.recipient.to_field(),
+            self.version,
+            self.content,
+            self.secret_hash,
+            self.deadline as Field,
+            self.fee as Field
+        ]
+    }
+
     pub fn validate_message_secret(self: Self) {
         let recomputed_hash = pedersen_hash([self.secret], GENERATOR_INDEX__L1_TO_L2_MESSAGE_SECRET);
         assert(self.secret_hash == recomputed_hash, "Invalid message secret");
@@ -78,4 +91,11 @@ impl L1ToL2Message {
         )
     }
     // docs:end:l1_to_l2_message_compute_nullifier
+
+    pub fn compute_nullifier_from_hash(self: Self, message_hash: Field) -> Field {
+        pedersen_hash(
+            [message_hash, self.secret, self.tree_index],
+            GENERATOR_INDEX__NULLIFIER
+        )
+    }
 }

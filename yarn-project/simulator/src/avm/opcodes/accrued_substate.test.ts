@@ -14,6 +14,7 @@ import {
   SendL2ToL1Message,
 } from './accrued_substate.js';
 import { StaticCallStorageAlterError } from './storage.js';
+import { EthAddress, Fr } from '@aztec/circuits.js';
 
 describe('Accrued Substate', () => {
   let context: AvmContext;
@@ -205,28 +206,28 @@ describe('Accrued Substate', () => {
       const buf = Buffer.from([
         SendL2ToL1Message.opcode, // opcode
         0x01, // indirect
-        ...Buffer.from('12345678', 'hex'), // offset
-        ...Buffer.from('a2345678', 'hex'), // length
+        ...Buffer.from('12345678', 'hex'), // recipientOffset
+        ...Buffer.from('a2345678', 'hex'), // contentOffset
       ]);
-      const inst = new SendL2ToL1Message(/*indirect=*/ 0x01, /*offset=*/ 0x12345678, /*length=*/ 0xa2345678);
+      const inst = new SendL2ToL1Message(/*indirect=*/ 0x01, /*recipientOffset=*/ 0x12345678, /*contentOffset=*/ 0xa2345678);
 
       expect(SendL2ToL1Message.deserialize(buf)).toEqual(inst);
       expect(inst.serialize()).toEqual(buf);
     });
 
     it('Should append l1 to l2 messages correctly', async () => {
-      const startOffset = 0;
+      const recipientOffset = 0;
+      const recipient = new Fr(42);
+      const contentOffset = 1;
+      const content = new Fr(69);
 
-      const values = [new Field(69n), new Field(420n), new Field(Field.MODULUS - 1n)];
-      context.machineState.memory.setSlice(0, values);
+      context.machineState.memory.set(recipientOffset, new Field(recipient));
+      context.machineState.memory.set(contentOffset, new Field(content));
 
-      const length = values.length;
-
-      await new SendL2ToL1Message(/*indirect=*/ 0, /*offset=*/ startOffset, length).execute(context);
+      await new SendL2ToL1Message(/*indirect=*/ 0, /*recipientOffset=*/ recipientOffset, /*contentOffset=*/contentOffset).execute(context);
 
       const journalState = context.persistableState.flush();
-      const expected = values.map(v => v.toFr());
-      expect(journalState.newL1Messages).toEqual([expected]);
+      expect(journalState.newL1Messages).toEqual([{recipient: EthAddress.fromField(recipient), content}]);
     });
   });
 
@@ -237,7 +238,7 @@ describe('Accrued Substate', () => {
       new EmitNoteHash(/*indirect=*/ 0, /*offset=*/ 0),
       new EmitNullifier(/*indirect=*/ 0, /*offset=*/ 0),
       new EmitUnencryptedLog(/*indirect=*/ 0, /*offset=*/ 0, 1),
-      new SendL2ToL1Message(/*indirect=*/ 0, /*offset=*/ 0, 1),
+      new SendL2ToL1Message(/*indirect=*/ 0, /*recipientOffset=*/ 0, /*contentOffset=*/ 1),
     ];
 
     for (const instruction of instructions) {

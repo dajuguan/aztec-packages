@@ -17,7 +17,6 @@ This section lists type definitions relevant to AVM State and Circuit I/O.
 | Field             | Type                                   | Description |
 | ---               | ---                                    | ---         |
 | `callPointer`     | `field`                                | Associates this item with a `TracedContractCall` entry in `worldStateAccessTrace.contractCalls` |
-| `portal`          | `EthAddress`                           |             |
 | `leafIndex`       | `field`                                |             |
 | `msgKey`          | `field`                                | The message key which is also the tree leaf value. |
 | `exists`          | `field`                                |             |
@@ -102,8 +101,8 @@ This section lists type definitions relevant to AVM State and Circuit I/O.
 
 #### _SentL2ToL1Message_
 
-| Field     | Type                                   | Description |
-| ---       | ---                                    | ---         |
-| `address` | `AztecAddress`                         | Contract address that emitted the message. |
-| `portal`  | `EthAddress`                           | L1 portal address to send the message to.  |
-| `message` | `[field, MAX_L2_TO_L1_MESSAGE_LENGTH]` |             |
+| Field       | Type                                   | Description |
+| ---         | ---                                    | ---         |
+| `address`   | `AztecAddress`                         | Contract address that emitted the message. |
+| `recipient` | `EthAddress`                           | L1 contract address to send the message to.  |
+| `content`   | `[field, MAX_L2_TO_L1_MESSAGE_LENGTH]` | Message content. |

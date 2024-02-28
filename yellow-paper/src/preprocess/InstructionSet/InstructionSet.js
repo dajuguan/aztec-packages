@@ -955,19 +955,19 @@ context.worldStateAccessTrace.newNullifiers.append(
         ],
         "Args": [
             {"name": "msgKeyOffset", "description": "memory offset of the message's key"},
-            {"name": "msgLeafIndex", "description": "memory offset of the message's leaf index in the L1-to-L2 message tree"},
+            {"name": "msgLeafIndexOffset", "description": "memory offset of the message's leaf index in the L1-to-L2 message tree"},
             {"name": "existsOffset", "description": "memory offset specifying where to store operation's result (whether the message exists in the L1-to-L2 message tree)"},
             {"name": "dstOffset", "description": "memory offset to place the 0th word of the message content"},
             {"name": "msgSize", "description": "number of words in the message", "mode": "immediate", "type": "u32"},
         ],
         "Expression": `
 exists = context.worldState.l1ToL2Messages.has({
-    leafIndex: M[msgLeafIndex], leaf: M[msgKeyOffset]
+    leafIndex: M[msgLeafIndexOffset], leaf: M[msgKeyOffset]
 })
 M[existsOffset] = exists
 if exists:
     M[dstOffset:dstOffset+msgSize] = context.worldState.l1ToL2Messages.get({
-        leafIndex: M[msgLeafIndex], leaf: M[msgKeyOffset]
+        leafIndex: M[msgLeafIndexOffset], leaf: M[msgKeyOffset]
     })
 `,
         "Summary": "Check if a message exists in the L1-to-L2 message tree and reads it if so",
@@ -976,7 +976,7 @@ context.worldStateAccessTrace.l1ToL2MessagesReads.append(
     ReadL1ToL2Message {
         callPointer: context.environment.callPointer,
         portal: context.environment.portal,
-        leafIndex: M[msgLeafIndex],
+        leafIndex: M[msgLeafIndexOffset],
         msgKey: M[msgKeyOffset],
         exists: exists, // defined above
     }
@@ -1060,15 +1060,15 @@ context.accruedSubstate.unencryptedLogs.append(
             {"name": "indirect", "description": INDIRECT_FLAG_DESCRIPTION},
         ],
         "Args": [
-            {"name": "msgOffset", "description": "memory offset of the message content"},
-            {"name": "msgSize", "description": "number of words in the message", "mode": "immediate", "type": "u32"},
+            {"name": "recipientOffset", "description": "memory offset of the message recipient"},
+            {"name": "contentOffset", "description": "memory offset of the message content"},
         ],
         "Expression": `
 context.accruedSubstate.sentL2ToL1Messages.append(
     SentL2ToL1Message {
         address: context.environment.address,
-        portal: context.environment.portal,
-        message: M[msgOffset:msgOffset+msgSize]
+        recipient: M[recipientOffset],
+        message: M[contentOffset]
     }
 )
 `,

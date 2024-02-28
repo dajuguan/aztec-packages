@@ -1,6 +1,6 @@
 contract AvmTest {
     // Libs
-    use dep::aztec::protocol_types::address::{AztecAddress, EthAddress};
+    use dep::aztec::protocol_types::{address::{AztecAddress, EthAddress}, constants::L1_TO_L2_MESSAGE_LENGTH};
 
     // avm lib
     use dep::aztec::avm::hash::{keccak256, poseidon, sha256};
@@ -172,5 +172,27 @@ contract AvmTest {
         context.push_new_nullifier(nullifier, 0);
         // Can't do this twice!
         context.push_new_nullifier(nullifier, 0);
+    }
+
+    #[aztec(public-vm)]
+    fn read_l1_to_l2_msg(msg_key: Field, msg_leaf_index: Field) -> pub (u8, [Field; L1_TO_L2_MESSAGE_LENGTH]) {
+        // returns (exists, message)
+        context.read_l1_to_l2_msg(msg_key, msg_leaf_index)
+    }
+
+    #[aztec(public-vm)]
+    fn consume_l1_to_l2_message(
+        msg_key: Field,
+        msg_leaf_index: Field,
+        content: Field,
+        secret: Field,
+        sender: EthAddress
+    ) {
+        context.consume_l1_to_l2_message(msg_key, msg_leaf_index, content, secret, sender)
+    }
+
+    #[aztec(public-vm)]
+    fn send_l2_to_l1_msg(recipient: EthAddress, content: Field) {
+        context.message_portal(recipient, content)
     }
 }

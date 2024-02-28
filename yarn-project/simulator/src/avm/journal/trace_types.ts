@@ -65,14 +65,14 @@ export type TracedNullifierCheck = {
 //  endLifetime: Fr;
 //};
 //
-//export type TracedL1toL2MessageRead = {
-//  callPointer: Fr;
-//  portal: Fr; // EthAddress
-//  leafIndex: Fr;
-//  msgKey: Fr;
-//  exists: Fr;
-//  message: []; // omitted from VM public inputs
-//};
+export type TracedL1toL2MessageRead = {
+  //callPointer: Fr;
+  leafIndex: Fr;
+  msgKey: Fr;
+  exists: boolean;
+  message: Fr[]; // omitted from VM public inputs
+  //endLifetime: Fr;
+};
 //
 //export type TracedArchiveLeafCheck = {
 //  leafIndex: Fr;

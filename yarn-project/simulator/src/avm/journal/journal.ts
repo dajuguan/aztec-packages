@@ -4,7 +4,8 @@ import { HostStorage } from './host_storage.js';
 import { Nullifiers } from './nullifiers.js';
 import { PublicStorage } from './public_storage.js';
 import { WorldStateAccessTrace } from './trace.js';
-import { TracedNullifierCheck } from './trace_types.js';
+import { TracedL1toL2MessageRead, TracedNullifierCheck } from './trace_types.js';
+import { EthAddress, L2ToL1Message } from '@aztec/circuits.js';
 
 /**
  * Data held within the journal
@@ -13,8 +14,9 @@ export type JournalData = {
   newNoteHashes: Fr[];
   nullifierChecks: TracedNullifierCheck[];
   newNullifiers: Fr[];
+  l1ToL2MessageReads: TracedL1toL2MessageRead[];
 
-  newL1Messages: Fr[][];
+  newL1Messages: L2ToL1Message[];
   newLogs: Fr[][];
 
   /** contract address -\> key -\> value */
@@ -49,7 +51,7 @@ export class AvmPersistableStateManager {
   private trace: WorldStateAccessTrace;
 
   /** Accrued Substate **/
-  private newL1Messages: Fr[][] = [];
+  private newL1Messages: L2ToL1Message[] = [];
   private newLogs: Fr[][] = [];
 
   constructor(hostStorage: HostStorage, parent?: AvmPersistableStateManager) {
@@ -98,7 +100,7 @@ export class AvmPersistableStateManager {
     this.trace.traceNewNoteHash(/*storageAddress*/ Fr.ZERO, noteHash);
   }
 
-  public async checkNullifierExists(storageAddress: Fr, nullifier: Fr) {
+  public async checkNullifierExists(storageAddress: Fr, nullifier: Fr): Promise<boolean> {
     const [exists, isPending, leafIndex] = await this.nullifiers.checkExists(storageAddress, nullifier);
     this.trace.traceNullifierCheck(storageAddress, nullifier, exists, isPending, leafIndex);
     return Promise.resolve(exists);
@@ -111,8 +113,18 @@ export class AvmPersistableStateManager {
     this.trace.traceNewNullifier(storageAddress, nullifier);
   }
 
-  public writeL1Message(message: Fr[]) {
-    this.newL1Messages.push(message);
+  public async readL1ToL2Message(msgKey: Fr, msgLeafIndex: Fr): Promise<[boolean, Fr[]]> {
+    // TODO: variation of getL1ToL2Message that take leafIndex as argument
+    const gotMessage = await this.hostStorage.commitmentsDb.getL1ToL2Message(msgKey);
+    const exists = gotMessage !== undefined && gotMessage.index == msgLeafIndex.toBigInt();
+    const message = gotMessage.message.toFields();
+    this.trace.traceL1ToL2MessageRead(msgKey, msgLeafIndex, exists, message);
+    return Promise.resolve([exists, message]);
+  }
+
+  public writeL1Message(recipient: EthAddress | Fr, content: Fr) {
+    const recipientAddress = recipient instanceof EthAddress ? recipient : EthAddress.fromField(recipient);
+    this.newL1Messages.push(new L2ToL1Message(recipientAddress, content));
   }
 
   public writeLog(log: Fr[]) {
@@ -152,6 +164,7 @@ export class AvmPersistableStateManager {
       newNoteHashes: this.trace.newNoteHashes,
       nullifierChecks: this.trace.nullifierChecks,
       newNullifiers: this.trace.newNullifiers,
+      l1ToL2MessageReads: this.trace.l1toL2MessageReads,
       newL1Messages: this.newL1Messages,
       newLogs: this.newLogs,
       currentStorageValue: this.publicStorage.getCache().cachePerContract,
