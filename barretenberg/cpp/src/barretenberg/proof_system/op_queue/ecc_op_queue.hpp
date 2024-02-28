@@ -36,6 +36,10 @@ class ECCOpQueue {
     std::array<Point, 4> ultra_ops_commitments;
     std::array<Point, 4> previous_ultra_ops_commitments;
 
+    bool initialized = false;
+
+    ECCOpQueue() { populate_with_mock_initital_data(); }
+
     Point get_accumulator() { return accumulator; }
 
     /**
@@ -55,7 +59,7 @@ class ECCOpQueue {
 
     void set_commitment_data(std::array<Point, 4>& commitments)
     {
-        previous_ultra_ops_commitments = ultra_ops_commitments;
+        previous_ultra_ops_commitments = ultra_ops_commitments; // this is not needed?
         ultra_ops_commitments = commitments;
     }
 
