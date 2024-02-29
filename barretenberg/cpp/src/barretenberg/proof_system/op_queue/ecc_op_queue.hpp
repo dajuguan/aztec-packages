@@ -34,7 +34,6 @@ class ECCOpQueue {
     size_t previous_ultra_ops_size = 0; // M_{i-1}
 
     std::array<Point, 4> ultra_ops_commitments;
-    std::array<Point, 4> previous_ultra_ops_commitments;
 
     /**
      * @brief Construct a new ECCOpQueue object, populating it with some mock data that mimics interactions with a
@@ -89,7 +88,6 @@ class ECCOpQueue {
         previous_ultra_ops_size += previous.ultra_ops[0].size();
         // Update commitments
         ultra_ops_commitments = previous.ultra_ops_commitments;
-        previous_ultra_ops_commitments = previous.previous_ultra_ops_commitments;
     }
 
     /**
@@ -111,10 +109,7 @@ class ECCOpQueue {
         lhs.previous_ultra_ops_size = rhs.previous_ultra_ops_size;
         rhs.previous_ultra_ops_size = temp;
         // Swap commitments
-        auto commit_temp = lhs.previous_ultra_ops_commitments;
-        lhs.previous_ultra_ops_commitments = rhs.previous_ultra_ops_commitments;
-        rhs.previous_ultra_ops_commitments = commit_temp;
-        commit_temp = lhs.ultra_ops_commitments;
+        auto commit_temp = lhs.ultra_ops_commitments;
         lhs.ultra_ops_commitments = rhs.ultra_ops_commitments;
         rhs.ultra_ops_commitments = commit_temp;
     }
@@ -134,11 +129,7 @@ class ECCOpQueue {
     [[nodiscard]] size_t get_previous_size() const { return previous_ultra_ops_size; }
     [[nodiscard]] size_t get_current_size() const { return current_ultra_ops_size; }
 
-    void set_commitment_data(std::array<Point, 4>& commitments)
-    {
-        previous_ultra_ops_commitments = ultra_ops_commitments;
-        ultra_ops_commitments = commitments;
-    }
+    void set_commitment_data(std::array<Point, 4>& commitments) { ultra_ops_commitments = commitments; }
 
     /**
      * @brief Get a 'view' of the current ultra ops object
