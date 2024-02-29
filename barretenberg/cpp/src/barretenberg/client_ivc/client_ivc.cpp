@@ -2,13 +2,6 @@
 
 namespace bb {
 
-ClientIVC::ClientIVC()
-{
-    // TODO(https://github.com/AztecProtocol/barretenberg/issues/723):
-    // GoblinMockCircuits::perform_op_queue_interactions_for_mock_first_circuit(goblin.op_queue);
-    // goblin.op_queue->populate_with_mock_initital_data();
-}
-
 /**
  * @brief Initialize the IVC with a first circuit
  * @details Initializes the accumulator and performs the initial goblin merge

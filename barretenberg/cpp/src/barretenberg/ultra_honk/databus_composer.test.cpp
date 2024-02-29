@@ -48,9 +48,6 @@ TEST_F(DataBusComposerTests, CallDataRead)
 {
     auto op_queue = std::make_shared<bb::ECCOpQueue>();
 
-    // Add mock data to op queue to simulate interaction with a previous circuit
-    op_queue->populate_with_mock_initital_data();
-
     auto builder = GoblinUltraCircuitBuilder{ op_queue };
 
     // Create a general test circuit

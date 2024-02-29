@@ -152,9 +152,6 @@ class GoblinMockCircuits {
      */
     static void construct_simple_initial_circuit(GoblinUltraBuilder& builder)
     {
-        // TODO(https://github.com/AztecProtocol/barretenberg/issues/800) Testing cleanup
-        perform_op_queue_interactions_for_mock_first_circuit(builder.op_queue);
-
         // Add some arbitrary ecc op gates
         for (size_t i = 0; i < 3; ++i) {
             auto point = Point::random_element();

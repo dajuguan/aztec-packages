@@ -65,7 +65,6 @@ template <typename BuilderType> class GoblinRecursiveVerifierTest : public testi
 
         // Instantiate ECC op queue and add mock data to simulate interaction with a previous circuit
         auto op_queue = std::make_shared<ECCOpQueue>();
-        op_queue->populate_with_mock_initital_data();
 
         InnerBuilder builder(op_queue);
 

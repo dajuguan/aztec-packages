@@ -34,10 +34,21 @@ class ECCOpQueue {
     size_t previous_ultra_ops_size = 0; // M_{i-1}
 
     std::array<Point, 4> ultra_ops_commitments;
-    std::array<Point, 4> previous_ultra_ops_commitments;
 
     bool initialized = false;
 
+    /**
+     * @brief Construct a new ECCOpQueue object, populating it with some mock data that mimics interactions with a
+     * previous circuit in order to avoid zero commitments in the merge protocol.
+     *
+     * @details Currently, our codebase cannot handle zero commitments
+     * (https://github.com/AztecProtocol/barretenberg/issues/871) which will be encountered in the first iteration of
+     * the transcript aggregation (merge) protocol if we start with an empty ECC op queue. This is because we call the
+     * merge protocol every time we process a new circuit, even for the initial circuit. Therefore, we populate the ECC
+     * op queue when constructed with some mock data of an arbitrary 'first' circuit  so the first merge prover can
+     * proceed without issues. Isolating the mock operations in the constructor is appropriate because  across an entire
+     * round of ClientIVC or Goblin accumulation, all circuits share the same ECC op queue.
+     */
     ECCOpQueue() { populate_with_mock_initital_data(); }
 
     Point get_accumulator() { return accumulator; }
@@ -57,11 +68,7 @@ class ECCOpQueue {
     [[nodiscard]] size_t get_previous_size() const { return previous_ultra_ops_size; }
     [[nodiscard]] size_t get_current_size() const { return current_ultra_ops_size; }
 
-    void set_commitment_data(std::array<Point, 4>& commitments)
-    {
-        previous_ultra_ops_commitments = ultra_ops_commitments; // this is not needed?
-        ultra_ops_commitments = commitments;
-    }
+    void set_commitment_data(std::array<Point, 4>& commitments) { ultra_ops_commitments = commitments; }
 
     /**
      * @brief Get a 'view' of the current ultra ops object
@@ -92,30 +99,6 @@ class ECCOpQueue {
             result.emplace_back(entry.begin(), previous_ultra_ops_size);
         }
         return result;
-    }
-
-    /**
-     * @brief TESTING PURPOSES ONLY: Populate ECC op queue with mock data as stand in for "previous circuit" in tests
-     * @details TODO(#723): We currently cannot support Goblin proofs (specifically, transcript aggregation) if there
-     * is not existing data in the ECC op queue (since this leads to zero-commitment issues). This method populates the
-     * op queue with mock data so that the prover of an arbitrary 'first' circuit can behave as if it were not the
-     * prover over the first circuit in the stack. This method should be removed entirely once this is resolved.
-     *
-     * @param op_queue
-     */
-    void populate_with_mock_initital_data()
-    {
-        // Add a single row of data to the op queue and commit to each column as [1] * FF(data)
-        std::array<Point, 4> mock_op_queue_commitments;
-        for (size_t idx = 0; idx < 4; idx++) {
-            auto mock_data = Fr::random_element();
-            this->ultra_ops[idx].emplace_back(mock_data);
-            mock_op_queue_commitments[idx] = Point::one() * mock_data;
-        }
-        // Set some internal data based on the size of the op queue data
-        this->set_size_data();
-        // Add the commitments to the op queue data for use by the next circuit
-        this->set_commitment_data(mock_op_queue_commitments);
     }
 
     /**
@@ -210,6 +193,31 @@ class ECCOpQueue {
             .z2 = 0,
             .mul_scalar_full = 0,
         });
+    }
+
+  private:
+    /**
+     * @brief TESTING PURPOSES ONLY: Populate ECC op queue with mock data as stand in for "previous circuit" in tests
+     * @details TODO(#723): We currently cannot support Goblin proofs (specifically, transcript aggregation) if there
+     * is not existing data in the ECC op queue (since this leads to zero-commitment issues). This method populates the
+     * op queue with mock data so that the prover of an arbitrary 'first' circuit can behave as if it were not the
+     * prover over the first circuit in the stack. This method should be removed entirely once this is resolved.
+     *
+     * @param op_queue
+     */
+    void populate_with_mock_initital_data()
+    {
+        // Add a single row of data to the op queue and commit to each column as [1] * FF(data)
+        std::array<Point, 4> mock_op_queue_commitments;
+        for (size_t idx = 0; idx < 4; idx++) {
+            auto mock_data = Fr::random_element();
+            this->ultra_ops[idx].emplace_back(mock_data);
+            mock_op_queue_commitments[idx] = Point::one() * mock_data;
+        }
+        // Set some internal data based on the size of the op queue data
+        this->set_size_data();
+        // Add the commitments to the op queue data for use by the next circuit
+        this->set_commitment_data(mock_op_queue_commitments);
     }
 };
 

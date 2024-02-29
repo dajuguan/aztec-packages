@@ -37,8 +37,6 @@ class ClientIVC {
     Goblin goblin;
     FoldingOutput fold_output;
 
-    ClientIVC();
-
     void initialize(ClientCircuit& circuit);
 
     FoldProof accumulate(ClientCircuit& circuit);
