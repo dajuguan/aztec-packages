@@ -27,11 +27,11 @@ document.querySelector('#deploy').addEventListener('click', async ({ target }: a
     .send({ contractAddressSalt: Fr.random() })
     .deployed();
   contract = await at(contractAddress, wallet);
-  setWait(false);
-
   alert(`Contract deployed at ${contractAddress}`);
+
   target.hidden = true;
   document.querySelectorAll('#get, #set').forEach((e: HTMLButtonElement & HTMLFormElement) => (e.hidden = false));
+  setWait(false);
 });
 
 document.querySelector('#set').addEventListener('submit', async (e: Event) => {
