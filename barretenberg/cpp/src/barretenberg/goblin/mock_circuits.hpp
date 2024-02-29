@@ -127,41 +127,6 @@ class GoblinMockCircuits {
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * @brief Mock the interactions of a simple curcuit with the op_queue
-     * @todo The transcript aggregation protocol in the Goblin proof system can not yet support an empty "previous
-     * transcript" (see issue #723) because the corresponding commitments are zero / the point at infinity. This
-     * function mocks the interactions with the op queue of a fictional "first" circuit. This way, when we go to
-     * generate a proof over our first "real" circuit, the transcript aggregation protocol can proceed nominally.
-     * The mock data is valid in the sense that it can be processed by all stages of Goblin as if it came from a
-     * genuine circuit.
-     *
-     *
-     * @param op_queue
-     */
-    static void perform_op_queue_interactions_for_mock_first_circuit(std::shared_ptr<bb::ECCOpQueue>& op_queue)
-    {
-        bb::GoblinUltraCircuitBuilder builder{ op_queue };
-
-        // Add some goblinized ecc ops
-        construct_goblin_ecc_op_circuit(builder);
-
-        op_queue->set_size_data();
-
-        // Manually compute the op queue transcript commitments (which would normally be done by the merge prover)
-        auto commitment_key = CommitmentKey(op_queue->get_current_size());
-        std::array<Point, Flavor::NUM_WIRES> op_queue_commitments;
-        size_t idx = 0;
-        for (auto& entry : op_queue->get_aggregate_transcript()) {
-            op_queue_commitments[idx++] = commitment_key.commit(entry);
-        }
-        // Store the commitment data for use by the prover of the next circuit
-        op_queue->set_commitment_data(op_queue_commitments);
-    }
-
-    /**
->>>>>>> master
      * @brief Generate a simple test circuit with some ECC op gates and conventional arithmetic gates
      *
      * @param builder

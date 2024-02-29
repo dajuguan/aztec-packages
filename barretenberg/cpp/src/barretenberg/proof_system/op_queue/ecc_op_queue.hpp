@@ -140,7 +140,12 @@ class ECCOpQueue {
      *
      * @param commitments
      */
-    void set_commitment_data(std::array<Point, 4>& commitments) { ultra_ops_commitments = commitments; }
+
+    void set_commitment_data(std::array<Point, 4>& commitments)
+    {
+        previous_ultra_ops_commitments = ultra_ops_commitments;
+        ultra_ops_commitments = commitments;
+    }
 
     /**
      * @brief Get a 'view' of the current ultra ops object
