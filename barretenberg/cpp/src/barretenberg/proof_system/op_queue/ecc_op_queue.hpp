@@ -68,6 +68,11 @@ class ECCOpQueue {
     [[nodiscard]] size_t get_previous_size() const { return previous_ultra_ops_size; }
     [[nodiscard]] size_t get_current_size() const { return current_ultra_ops_size; }
 
+    /**
+     * @brief Save the commitments to T_i to be used in the next round.
+     *
+     * @param commitments
+     */
     void set_commitment_data(std::array<Point, 4>& commitments) { ultra_ops_commitments = commitments; }
 
     /**
