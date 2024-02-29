@@ -125,7 +125,6 @@ void ClientIVC::precompute_folding_verification_keys()
     // Clean the ivc state
     goblin.op_queue = std::make_shared<Goblin::OpQueue>();
     goblin.merge_proof_exists = false;
-    GoblinMockCircuits::perform_op_queue_interactions_for_mock_first_circuit(goblin.op_queue);
 }
 
 } // namespace bb

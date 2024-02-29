@@ -150,7 +150,10 @@ TEST(GoblinUltraCircuitBuilder, GoblinEccOpQueueUltraOps)
     for (size_t i = 1; i < 4; ++i) {
         for (size_t j = 0; j < builder.num_ecc_op_gates; ++j) {
             auto op_wire_val = builder.variables[builder.blocks.ecc_op.wires[i][j]];
-            auto ultra_op_val = ultra_ops[i][j];
+            // NOTE: each ultra_ops vector at index 0 has mock operations mimicking interactions with a first circuit so
+            // the merge protocol works as expected because zero-commitment issues, these will be removed after
+            // https://github.com/AztecProtocol/barretenberg/issues/871 is resolved.
+            auto ultra_op_val = ultra_ops[i][j + 1];
             ASSERT_EQ(op_wire_val, ultra_op_val);
         }
     }

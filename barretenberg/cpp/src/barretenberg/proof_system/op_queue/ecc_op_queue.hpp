@@ -34,8 +34,7 @@ class ECCOpQueue {
     size_t previous_ultra_ops_size = 0; // M_{i-1}
 
     std::array<Point, 4> ultra_ops_commitments;
-
-    bool initialized = false;
+    std::array<Point, 4> previous_ultra_ops_commitments;
 
     /**
      * @brief Construct a new ECCOpQueue object, populating it with some mock data that mimics interactions with a
@@ -134,12 +133,6 @@ class ECCOpQueue {
 
     [[nodiscard]] size_t get_previous_size() const { return previous_ultra_ops_size; }
     [[nodiscard]] size_t get_current_size() const { return current_ultra_ops_size; }
-
-    /**
-     * @brief Save the commitments to T_i to be used in the next round.
-     *
-     * @param commitments
-     */
 
     void set_commitment_data(std::array<Point, 4>& commitments)
     {
