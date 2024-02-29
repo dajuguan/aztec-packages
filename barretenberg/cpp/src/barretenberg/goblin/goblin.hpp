@@ -104,7 +104,7 @@ class Goblin {
 
         // Construct a Honk proof for the main circuit
         GoblinUltraComposer composer;
-        auto instance = composer.create_instance(circuit_builder);
+        auto instance = composer.create_prover_instance(circuit_builder);
         auto prover = composer.create_prover(instance);
         auto ultra_proof = prover.construct_proof();
 
@@ -129,6 +129,7 @@ class Goblin {
      */
     void merge(GoblinUltraCircuitBuilder& circuit_builder)
     {
+        BB_OP_COUNT_TIME_NAME("Goblin::merge");
         // Complete the circuit logic by recursively verifying previous merge proof if it exists
         if (merge_proof_exists) {
             RecursiveMergeVerifier merge_verifier{ &circuit_builder };
@@ -229,7 +230,7 @@ class Goblin {
 
         // Construct a Honk proof for the main circuit
         GoblinUltraComposer composer;
-        auto instance = composer.create_instance(circuit_builder);
+        auto instance = composer.create_prover_instance(circuit_builder);
         auto prover = composer.create_prover(instance);
         auto ultra_proof = prover.construct_proof();
 
