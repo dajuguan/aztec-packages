@@ -1,17 +1,18 @@
 {
   "name": "create-aztec-app",
   "packageManager": "yarn@4.1.0",
-  "version": "0.1.1",
+  "version": "0.2.2",
   "type": "module",
   "scripts": {
     "compile": "yarn workspaces foreach -A -v run compile",
-    "build": "yarn workspaces foreach -A -v run build"
+    "build": "yarn workspaces foreach -A -v run build",
+    "publish": "yarn npm publish"
   },
   "workspaces": [
     "react",
     "vanilla-js"
   ],
-  "bin": "npx.js",
+  "bin": "VERSION=${VERSION:+} bin.js",
   "resolutions": {
     "@aztec/accounts": "portal:../yarn-project/accounts",
     "@aztec/aztec.js": "portal:../yarn-project/aztec.js",
