@@ -2,12 +2,54 @@ import path from "path";
 import os from "os";
 import fs from "fs";
 import { parse, stringify } from "@iarna/toml";
+import axios from "axios";
 
 const { log, warn, info } = console;
 const targetDir = path.join(os.homedir(), ".aztec/bin"); // Use os.homedir() to get $HOME
 
+export async function getAvailableBoxes(tag, version) {
+  const { GITHUB_TOKEN } = process.env;
+  const axiosOpts = {};
+  if (GITHUB_TOKEN) {
+    axiosOpts.headers = { Authorization: `token ${GITHUB_TOKEN}` };
+  }
+
+  // TODO: Remove this try catch. Boxes are currently in "boxes" but from this PR on, they will be in "boxes/boxes"
+  let data;
+  try {
+    ({ data } = await axios.get(
+      `https://api.github.com/repos/AztecProtocol/aztec-packages/contents/boxes/boxes?ref=${tag}`,
+      axiosOpts,
+    ));
+  } catch (e) {
+    if (e.response.statusText === "Not Found") {
+      ({ data } = await axios.get(
+        `https://api.github.com/repos/AztecProtocol/aztec-packages/contents/boxes?ref=${tag}`,
+        axiosOpts,
+      ));
+    }
+  }
+
+  let availableBoxes = data
+    .filter(
+      (content) => content.type === "dir" && !content.name.startsWith("."),
+    )
+    .map(async ({ path, name }) => {
+      ({ data } = await axios.get(
+        `https://raw.githubusercontent.com/AztecProtocol/aztec-packages/${["latest", "master"].includes(tag) ? "master" : tag}/${path}/package.json`,
+        axiosOpts,
+      ));
+
+      return {
+        name,
+        description: data.description || name,
+      };
+    });
+
+  return await Promise.all(availableBoxes);
+}
+
 export function prettyPrintNargoToml(config) {
-  console.log(config);
   const withoutDependencies = Object.fromEntries(
     Object.entries(config).filter(([key]) => key !== "dependencies"),
   );
@@ -59,7 +101,6 @@ export async function replacePaths(rootDir, tag, version) {
   });
 
   files.forEach((file) => {
-    console.log(file);
     const filePath = path.join(rootDir, file.name);
     if (file.isDirectory()) {
       replacePaths(filePath, tag, version); // Recursively search subdirectories

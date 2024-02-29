@@ -91,11 +91,17 @@ export async function sandboxInstallOrUpdate(stable, version) {
     sandboxVersion !== version &&
     !["latest", "master"].includes(version)
   ) {
-    log(
-      chalk.bgYellow(
-        `The sandbox is version ${sandboxVersion} but the boilerplate is version ${version}. Things may not work as expected. You should manually update versions in package.json and Nargo.toml`,
-      ),
-    );
+    const answer = await confirm({
+      message: `The sandbox is version ${sandboxVersion} but your chosen version is ${version}. Do you want to install version ${version}?`,
+      default: true,
+    });
+
+    if (answer) {
+      execSync(
+        `${["latest", "master"].includes(version) ? "VERSION=master" : ""} $HOME/.aztec/bin/aztec-up`,
+        { stdio: "inherit" },
+      );
+    }
   } else if (sandboxVersion !== stable) {
     const answer = await confirm({
       message: `The Sandbox is not up to date. Do you want to update it to ${stable}?`,

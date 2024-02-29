@@ -1,5 +1,6 @@
 {
-  "name": "@aztec/box-vanilla",
+  "name": "@aztec/vanilla",
+  "description": "Vanilla HTML/JS App",
   "private": true,
   "version": "0.1.0",
   "type": "module",

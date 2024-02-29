@@ -1,18 +1,18 @@
 import select from "@inquirer/select";
 import input from "@inquirer/input";
 import tiged from "tiged";
-import { replacePaths } from "../utils.js";
+import { getAvailableBoxes, replacePaths } from "../utils.js";
 import chalk from "chalk";
+import axios from "axios";
 const { log } = console;
 
 export async function chooseAndCloneBox(tag, version) {
+  const availableBoxes = await getAvailableBoxes(tag, version);
   const appType = await select({
-    message: "Please choose your Aztec boilerplate:",
-    choices: [
-      { value: "vanilla-js", name: "HTML/TS project" },
-      { value: "react", name: "React project" },
-      { value: "skip", name: "Skip this step" },
-    ],
+    message: `Please choose your Aztec boilerplate:`,
+    choices: availableBoxes.map((box) => {
+      return { value: box.name, name: box.description };
+    }),
   });
 
   if (appType === "skip") return;

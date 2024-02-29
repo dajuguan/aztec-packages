@@ -1,5 +1,6 @@
 {
-  "name": "@aztec/box-react",
+  "name": "@aztec/react",
+  "description": "React App",
   "private": true,
   "version": "0.1.0",
   "type": "module",
