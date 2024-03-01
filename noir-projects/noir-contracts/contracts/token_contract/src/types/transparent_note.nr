@@ -18,6 +18,13 @@ struct TransparentNote {
 }
 
 impl NoteInterface<TRANSPARENT_NOTE_LEN> for TransparentNote {
+    fn compute_inner_note_content_hash(self) -> Field {
+        pedersen_hash(self.serialize_content(), 0)
+    }
+
+    fn compute_outer_note_content_hash(self) -> Field {
+        0
+    }
     fn serialize_content(self) -> [Field; TRANSPARENT_NOTE_LEN] {
         [self.amount, self.secret_hash]
     }
@@ -29,11 +36,6 @@ impl NoteInterface<TRANSPARENT_NOTE_LEN> for TransparentNote {
             secret: 0,
             header: NoteHeader::empty(),
         }
-    }
-
-    fn compute_note_content_hash(self) -> Field {
-        // TODO(#1205) Should use a non-zero generator index.
-        pedersen_hash(self.serialize_content(), 0)
     }
 
     fn compute_nullifier(self, _context: &mut PrivateContext) -> Field {
