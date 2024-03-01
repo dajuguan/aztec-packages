@@ -18,13 +18,13 @@ export async function getAvailableBoxes(tag, version) {
   let data;
   try {
     ({ data } = await axios.get(
-      `https://api.github.com/repos/AztecProtocol/aztec-packages/contents/boxes/boxes?ref=${tag}`,
+      `https://api.github.com/repos/AztecProtocol/aztec-packages/contents/boxes/boxes${tag == "master" ? "" : `?ref=${tag}`}`,
       axiosOpts,
     ));
   } catch (e) {
     if (e.response.statusText === "Not Found") {
       ({ data } = await axios.get(
-        `https://api.github.com/repos/AztecProtocol/aztec-packages/contents/boxes?ref=${tag}`,
+        `https://api.github.com/repos/AztecProtocol/aztec-packages/contents/boxes${tag == "master" ? "" : `?ref=${tag}`}`,
         axiosOpts,
       ));
     }
@@ -36,7 +36,7 @@ export async function getAvailableBoxes(tag, version) {
     )
     .map(async ({ path, name }) => {
       ({ data } = await axios.get(
-        `https://raw.githubusercontent.com/AztecProtocol/aztec-packages/${["latest", "master"].includes(tag) ? "master" : tag}/${path}/package.json`,
+        `https://raw.githubusercontent.com/AztecProtocol/aztec-packages/${tag == "master" ? "master" : tag}/${path}/package.json`,
         axiosOpts,
       ));
 
@@ -112,9 +112,7 @@ export async function replacePaths(rootDir, tag, version) {
           const directory = content.dependencies[dep].path.replace(/^(..\/)+/);
           content.dependencies[dep] = {
             git: "https://github.com/AztecProtocol/aztec-packages/",
-            // "master" and "latest" both mean "master" for the nargo dependencies
-            // plus, we're parsing the tag here, not the version, but as seen above, tag IS version if it's not semver
-            tag: ["latest", "master"].includes(tag) ? "master" : tag,
+            tag,
             directory,
           };
         });
@@ -128,11 +126,11 @@ export async function replacePaths(rootDir, tag, version) {
         let content = JSON.parse(fs.readFileSync(filePath, "utf8"));
         Object.keys(content.dependencies)
           .filter((deps) => deps.match("@aztec"))
-          // "master" and "latest" both mean "latest" for the npm release
+          // "master" actually means "latest" for the npm release
           .map(
             (dep) =>
               (content.dependencies[dep] =
-                `${["latest", "master"].includes(version) ? "latest" : `^${version}`}`),
+                `${version === "master" ? "latest" : `^${version}`}`),
           );
         fs.writeFileSync(filePath, JSON.stringify(content), "utf8");
       } catch (e) {

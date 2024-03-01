@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 const program = new Command();
-import path from "path";
-import os from "os";
 import axios from "axios";
 import { chooseAndCloneBox } from "./scripts/steps/chooseBox.js";
 import { sandboxRun } from "./scripts/steps/sandbox/run.js";
@@ -25,24 +23,24 @@ const { data } = await axios.get(
 //
 // if the user has set a version (ex. "master" or "0.23.0"), use that
 // otherwise use the stable release (ex. 0.24.0)
-const stable = `${data[0].tag_name.split("-v")[1]}`;
-const version = process.env.VERSION || stable;
+const latestStable = `${data[0].tag_name.split("-v")[1]}`;
+const versionToInstall = process.env.VERSION || latestStable;
 
 // if the user has set a semver version (matches the regex), fetch that tag (i.e. aztec-packages-v0.23.0)
 // otherwise use the version as the tag
-const tag = version.match(/^\d+\.\d+\.\d+$/)
-  ? `aztec-packages-v${version}`
-  : version;
+const tagToUse = versionToInstall.match(/^\d+\.\d+\.\d+$/)
+  ? `aztec-packages-v${versionToInstall}`
+  : versionToInstall;
 
 program.action(async () => {
   // STEP 1: Choose the boilerplate
-  await chooseAndCloneBox(tag, version);
+  await chooseAndCloneBox(tagToUse, versionToInstall);
 
   // STEP 2: Install the Sandbox
-  await sandboxInstallOrUpdate(stable, version);
+  await sandboxInstallOrUpdate(latestStable, versionToInstall);
 
   // STEP 3: Running the Sandbox
-  await sandboxRun(version);
+  await sandboxRun(versionToInstall);
 });
 
 program.parse();

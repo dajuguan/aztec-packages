@@ -1,7 +1,7 @@
 {
   "name": "create-aztec-app",
   "packageManager": "yarn@4.1.0",
-  "version": "0.2.3",
+  "version": "0.2.11",
   "type": "module",
   "scripts": {
     "compile": "yarn workspaces foreach -A -v run compile",
@@ -11,7 +11,7 @@
   "workspaces": [
     "boxes/*"
   ],
-  "bin": "VERSION=${VERSION:+} bin.js",
+  "bin": "bin.js",
   "resolutions": {
     "@aztec/accounts": "portal:../yarn-project/accounts",
     "@aztec/aztec.js": "portal:../yarn-project/aztec.js",
@@ -33,6 +33,7 @@
     "chalk": "^5.3.0",
     "commander": "^12.0.0",
     "node-pty": "^1.0.0",
+    "ora": "^8.0.1",
     "tiged": "^2.12.6"
   }
 }
