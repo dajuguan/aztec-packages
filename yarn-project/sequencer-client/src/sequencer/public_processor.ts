@@ -1,4 +1,4 @@
-import { ContractDataSource, L1ToL2MessageSource, Tx } from '@aztec/circuit-types';
+import { ContractDataSource, L1ToL2MessageSource, SimulationError, Tx } from '@aztec/circuit-types';
 import { TxSequencerProcessingStats } from '@aztec/circuit-types/stats';
 import { GlobalVariables, Header } from '@aztec/circuits.js';
 import { createDebugLogger } from '@aztec/foundation/log';
@@ -104,7 +104,7 @@ export class PublicProcessor {
       );
       this.log(`Beginning processing in phase ${phase?.phase} for tx ${tx.getTxHash()}`);
       let { publicKernelPublicInput, previousProof: proof } = getPreviousOutputAndProof(tx, undefined, undefined);
-      let revertReason: Error | undefined;
+      let revertReason: SimulationError | undefined;
       const timer = new Timer();
       try {
         while (phase) {

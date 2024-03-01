@@ -1,4 +1,4 @@
-import { FunctionL2Logs, MerkleTreeId, Tx } from '@aztec/circuit-types';
+import { FunctionL2Logs, MerkleTreeId, SimulationError, Tx } from '@aztec/circuit-types';
 import {
   AztecAddress,
   CallRequest,
@@ -103,7 +103,7 @@ export abstract class AbstractPhaseManager {
     /**
      * revert reason, if any
      */
-    revertReason: Error | undefined;
+    revertReason: SimulationError | undefined;
   }>;
   abstract rollback(tx: Tx, err: unknown): Promise<FailedTx>;
 
@@ -164,7 +164,7 @@ export abstract class AbstractPhaseManager {
     tx: Tx,
     previousPublicKernelOutput: PublicKernelCircuitPublicInputs,
     previousPublicKernelProof: Proof,
-  ): Promise<[PublicKernelCircuitPublicInputs, Proof, FunctionL2Logs[], Error | undefined]> {
+  ): Promise<[PublicKernelCircuitPublicInputs, Proof, FunctionL2Logs[], SimulationError | undefined]> {
     let kernelOutput = previousPublicKernelOutput;
     let kernelProof = previousPublicKernelProof;
 

@@ -101,7 +101,7 @@ describe('e2e_token_contract', () => {
     });
 
     describe('name', () => {
-      it.only.each([
+      it.each([
         ['private', 'check_name_private' as const, "Cannot satisfy constraint 'name.is_eq(_what)'"],
         [
           'public',

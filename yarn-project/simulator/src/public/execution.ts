@@ -1,4 +1,4 @@
-import { FunctionL2Logs } from '@aztec/circuit-types';
+import { FunctionL2Logs, SimulationError } from '@aztec/circuit-types';
 import {
   AztecAddress,
   ContractStorageRead,
@@ -45,7 +45,7 @@ export interface PublicExecutionResult {
   /**
    * The revert reason if the execution reverted.
    */
-  revertReason: Error | undefined;
+  revertReason: SimulationError | undefined;
 }
 
 /**

@@ -63,6 +63,10 @@ export async function executePublicFunction(
     }));
 
   if (reverted) {
+    if (!revertReason) {
+      throw new Error('Reverted but no revert reason');
+    }
+
     return {
       execution,
       returnValues: [],
@@ -74,7 +78,7 @@ export async function executePublicFunction(
       nestedExecutions: [],
       unencryptedLogs: FunctionL2Logs.empty(),
       reverted,
-      revertReason,
+      revertReason: createSimulationError(revertReason),
     };
   }
 

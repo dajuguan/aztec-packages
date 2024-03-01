@@ -520,7 +520,7 @@ class PublicExecutionResultBuilder {
   private _contractStorageUpdateRequests: ContractStorageUpdateRequest[] = [];
   private _returnValues: Fr[] = [];
   private _reverted = false;
-  private _revertReason: Error | undefined = undefined;
+  private _revertReason: SimulationError | undefined = undefined;
 
   constructor(execution: PublicExecution) {
     this._execution = execution;
@@ -559,7 +559,7 @@ class PublicExecutionResultBuilder {
     returnValues?: Fr[];
     nestedExecutions?: PublicExecutionResult[];
     contractStorageUpdateRequests?: ContractStorageUpdateRequest[];
-    revertReason?: Error;
+    revertReason?: SimulationError;
   }) {
     const builder = new PublicExecutionResultBuilder({
       callContext: new CallContext(from, tx.to, EthAddress.ZERO, tx.functionData.selector, false, false, false, 0),
@@ -593,7 +593,7 @@ class PublicExecutionResultBuilder {
     return this;
   }
 
-  withReverted(reason: Error): PublicExecutionResultBuilder {
+  withReverted(reason: SimulationError): PublicExecutionResultBuilder {
     this._reverted = true;
     this._revertReason = reason;
     return this;

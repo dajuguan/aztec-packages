@@ -1,4 +1,4 @@
-import { ExtendedContractData, Tx, TxHash, TxL2Logs } from '@aztec/circuit-types';
+import { ExtendedContractData, SimulationError, Tx, TxHash, TxL2Logs } from '@aztec/circuit-types';
 import {
   Fr,
   Header,
@@ -30,7 +30,7 @@ export type ProcessedTx = Pick<Tx, 'proof' | 'encryptedLogs' | 'unencryptedLogs'
   /**
    * Reason the tx was reverted.
    */
-  revertReason: Error | undefined;
+  revertReason: SimulationError | undefined;
 };
 
 export type RevertedTx = ProcessedTx & {
@@ -38,7 +38,7 @@ export type RevertedTx = ProcessedTx & {
     reverted: true;
   };
 
-  revertReason: Error;
+  revertReason: SimulationError;
 };
 
 export function isRevertedTx(tx: ProcessedTx): tx is RevertedTx {
@@ -128,7 +128,7 @@ export function makeProcessedTx(
   tx: Tx,
   kernelOutput?: PublicKernelCircuitPublicInputs,
   proof?: Proof,
-  revertReason?: Error,
+  revertReason?: SimulationError,
 ): ProcessedTx {
   const { publicKernelPublicInput, previousProof } = getPreviousOutputAndProof(tx, kernelOutput, proof);
   return {
