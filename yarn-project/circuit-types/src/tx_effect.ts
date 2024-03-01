@@ -161,4 +161,8 @@ export class TxEffect {
   get txHash(): TxHash {
     return new TxHash(this.nullifiers[0].toBuffer());
   }
+
+  isZero(): boolean {
+    return this.txHash.isZero();
+  }
 }

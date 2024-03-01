@@ -1,4 +1,4 @@
-import { Body, TxEffect, TxHash } from '@aztec/circuit-types';
+import { Body, TxHash } from '@aztec/circuit-types';
 import { AppendOnlyTreeSnapshot, Header, STRING_ENCODING } from '@aztec/circuits.js';
 import { makeAppendOnlyTreeSnapshot, makeHeader } from '@aztec/circuits.js/testing';
 import { sha256 } from '@aztec/foundation/crypto';
@@ -234,16 +234,6 @@ export class L2Block {
   }
 
   /**
-   * Get the ith transaction in an L2 block.
-   * @param txIndex - The index of the tx in the block.
-   * @returns The tx.
-   */
-  getTx(txIndex: number): TxEffect {
-    this.assertIndexInRange(txIndex);
-    return this.body.txEffects[txIndex];
-  }
-
-  /**
    * A lightweight method to get the tx hash of a tx in the block.
    * @param txIndex - the index of the tx in the block
    * @returns a hash of the tx, which is the first nullifier in the tx
@@ -255,16 +245,6 @@ export class L2Block {
     const firstNullifier = this.body.txEffects[txIndex].nullifiers[0];
 
     return new TxHash(firstNullifier.toBuffer());
-  }
-
-  /**
-   * Get all the transaction in an L2 block.
-   * @returns The tx.
-   */
-  getTxs() {
-    return Array(this.body.numberOfTxs)
-      .fill(0)
-      .map((_, i) => this.getTx(i));
   }
 
   /**
@@ -292,17 +272,17 @@ export class L2Block {
     };
 
     return {
-      txCount: this.body.numberOfTxs,
+      txCount: this.body.txEffects.length,
       blockNumber: this.number,
       ...logsStats,
     };
   }
 
   assertIndexInRange(txIndex: number) {
-    if (txIndex < 0 || txIndex >= this.body.numberOfTxs) {
+    if (txIndex < 0 || txIndex >= this.body.txEffects.length) {
       throw new IndexOutOfRangeError({
         txIndex,
-        numberOfTxs: this.body.numberOfTxs,
+        numberOfTxs: this.body.txEffects.length,
         blockNumber: this.number,
       });
     }

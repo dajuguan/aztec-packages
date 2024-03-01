@@ -122,7 +122,7 @@ export class MemoryArchiverStore implements ArchiverDataStore {
    */
   public addBlocks(blocks: L2Block[]): Promise<boolean> {
     this.l2BlockContexts.push(...blocks.map(block => new L2BlockContext(block)));
-    this.txEffects.push(...blocks.flatMap(b => b.getTxs()));
+    this.txEffects.push(...blocks.flatMap(b => b.body.txEffects));
     return Promise.resolve(true);
   }
 

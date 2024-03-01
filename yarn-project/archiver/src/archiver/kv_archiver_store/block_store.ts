@@ -52,10 +52,7 @@ export class BlockStore {
           l1BlockNumber: block.getL1BlockNumber(),
         });
 
-        block.getTxs().forEach((tx, i) => {
-          if (tx.txHash.isZero()) {
-            return;
-          }
+        block.body.txEffects.forEach((tx, i) => {
           void this.#txIndex.set(tx.txHash.toString(), [block.number, i]);
         });
 
@@ -128,7 +125,7 @@ export class BlockStore {
     }
 
     const block = this.getBlock(blockNumber);
-    return block?.getTx(txIndex);
+    return block?.body.txEffects[txIndex];
   }
 
   /**

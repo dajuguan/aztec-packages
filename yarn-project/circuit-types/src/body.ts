@@ -10,7 +10,11 @@ export class Body {
   constructor(
     public l1ToL2Messages: Tuple<Fr, typeof NUMBER_OF_L1_L2_MESSAGES_PER_ROLLUP>,
     public txEffects: TxEffect[],
-  ) {}
+  ) {
+    if (txEffects.some(txEffect => txEffect.isZero())) {
+      throw new Error('Body cannot contain zero tx effects');
+    }
+  }
 
   /**
    * Serializes a block body
@@ -78,11 +82,6 @@ export class Body {
     const logs = this.txEffects.map(txEffect => txEffect.unencryptedLogs);
 
     return new L2BlockL2Logs(logs);
-  }
-
-  get numberOfTxs() {
-    // We gather all the txEffects that are not empty (the ones that have been padded by checking the first newNullifier of the txEffect);
-    return this.txEffects.reduce((acc, txEffect) => (!txEffect.nullifiers[0].equals(Fr.ZERO) ? acc + 1 : acc), 0);
   }
 
   static random(

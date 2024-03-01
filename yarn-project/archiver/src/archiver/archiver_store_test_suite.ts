@@ -166,11 +166,11 @@ export function describeArchiverDataStore(testName: string, getStore: () => Arch
       });
 
       it.each([
-        () => blocks[0].getTx(0),
-        () => blocks[9].getTx(3),
-        () => blocks[3].getTx(1),
-        () => blocks[5].getTx(2),
-        () => blocks[1].getTx(0),
+        () => blocks[0].body.txEffects[0],
+        () => blocks[9].body.txEffects[3],
+        () => blocks[3].body.txEffects[1],
+        () => blocks[5].body.txEffects[2],
+        () => blocks[1].body.txEffects[0],
       ])('retrieves a previously stored transaction', async getExpectedTx => {
         const expectedTx = getExpectedTx();
         const actualTx = await store.getTxEffect(expectedTx.txHash);
