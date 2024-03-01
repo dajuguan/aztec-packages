@@ -175,19 +175,19 @@ export class PublicExecutor {
 
   /**
    * These functions are currently housed in the temporary executor as it relies on access to
-   *  oracles like the contractsDB and this is the least intrusive way to achieve this.
-   *  When we remove this Executor and become compatible with the kernel circuits, this will be movoed to Prover.
-   *  but will eventually be moved
+   * oracles like the contractsDB and this is the least intrusive way to achieve this.
+   * When we remove this executor and have an interface that is compatible with the kernel circuits,
+   * this will be moved to sequencer-client/prover.
    */
 
   /**
-   * Generates a proof for an associated avm execution.
+   * Generates a proof for an associated avm execution. This is currently only used for testing purposes,
+   * as proof generation is not fully complete in the AVM yet.
    * @param execution - The execution to run.
    * @returns An AVM proof and the verification key.
    */
   public async getAvmProof(avmExecution: PublicExecution): Promise<Buffer[]> {
     // The paths for the barretenberg binary and the write path are hardcoded for now.
-    // It is expected that this call will be only made from this file
     // We additionally need the path to a valid crs for proof generation.
     const bbPath = '../../barretenberg/cpp';
     const writePath = '/tmp';
@@ -212,6 +212,7 @@ export class PublicExecutor {
       '-o',
       `${writePath}/proof`,
     ]);
+    // The binary writes the proof and the verification key to the write path.
     return new Promise(resolve => {
       bbBinary.on('close', () => {
         resolve(Promise.all([fs.readFile(`${writePath}/proof`), fs.readFile(`${writePath}/vk`)]));
@@ -219,19 +220,26 @@ export class PublicExecutor {
     });
   }
   /**
-   * Verifies an AVM proof.
+   * Verifies an AVM proof. This function is currently only used for testing purposes, as verification
+   * is not fully complete in the AVM yet.
    * @param vk - The verification key to use.
    * @param proof - The proof to verify.
    * @returns True if the proof is valid, false otherwise.
    */
   async verifyAvmProof(vk: Buffer, proof: Buffer): Promise<boolean> {
-    // The paths for the barretenberg binary and the write path are hardcoded for now.
-    // It is expected that this call will be only made from this file
+    // The relative paths for the barretenberg binary and the write path are hardcoded for now.
     const bbPath = '../../barretenberg/cpp';
     const writePath = '/tmp';
     await Promise.all([fs.writeFile(`${writePath}/vk`, vk), fs.writeFile(`${writePath}/proof`, proof)]);
 
-    const bbBinary = spawn(`${bbPath}/build/bin/bb`, ['avm_verify', '-p', `${writePath}/proof`, '-vk', `/tmp/vk`]);
+    const bbBinary = spawn(`${bbPath}/build/bin/bb`, [
+      'avm_verify',
+      '-p',
+      `${writePath}/proof`,
+      '-vk',
+      `${writePath}/vk`,
+    ]);
+    // The binary prints to stdout 1 if the proof is valid and 0 if it is not.
     return new Promise(resolve => {
       let result = Buffer.alloc(0);
       bbBinary.stdout.on('data', data => {
