@@ -275,14 +275,14 @@ describe('Private Execution test suite', () => {
       const noteHashIndex = Math.floor(Math.random()); // mock index in TX's final newNoteHashes array
       const nonce = computeCommitmentNonce(mockFirstNullifier, noteHashIndex);
       const note = new Note([new Fr(amount), owner.toField(), Fr.random()]);
-      const innerNoteHash = hashFields(note.items);
+      const nonSiloedNoteHash = hashFields(note.items);
       return {
         contractAddress,
         storageSlot,
         noteTypeId,
         nonce,
         note,
-        innerNoteHash,
+        nonSiloedNoteHash,
         siloedNullifier: new Fr(0),
         index: currentNoteIndex++,
       };
@@ -327,7 +327,7 @@ describe('Private Execution test suite', () => {
 
       const [commitment] = newNoteHashes;
       expect(commitment).toEqual(
-        await acirSimulator.computeInnerNoteHash(
+        await acirSimulator.computeNonSiloedNoteHash(
           contractAddress,
           newNote.storageSlot,
           newNote.noteTypeId,
@@ -353,7 +353,7 @@ describe('Private Execution test suite', () => {
 
       const [commitment] = newNoteHashes;
       expect(commitment).toEqual(
-        await acirSimulator.computeInnerNoteHash(
+        await acirSimulator.computeNonSiloedNoteHash(
           contractAddress,
           newNote.storageSlot,
           newNote.noteTypeId,
@@ -387,7 +387,7 @@ describe('Private Execution test suite', () => {
         nonEmptySideEffects(result.callStackItem.publicInputs.newNullifiers),
       );
       expect(newNullifiers).toHaveLength(consumedNotes.length);
-      expect(newNullifiers).toEqual(expect.arrayContaining(consumedNotes.map(n => n.innerNullifier)));
+      expect(newNullifiers).toEqual(expect.arrayContaining(consumedNotes.map(n => n.nonSiloedNullifier)));
 
       expect(result.newNotes).toHaveLength(2);
       const [changeNote, recipientNote] = result.newNotes;
@@ -401,10 +401,15 @@ describe('Private Execution test suite', () => {
 
       const [changeNoteCommitment, recipientNoteCommitment] = newNoteHashes;
       expect(recipientNoteCommitment).toEqual(
-        await acirSimulator.computeInnerNoteHash(contractAddress, recipientStorageSlot, noteTypeId, recipientNote.note),
+        await acirSimulator.computeNonSiloedNoteHash(
+          contractAddress,
+          recipientStorageSlot,
+          noteTypeId,
+          recipientNote.note,
+        ),
       );
       expect(changeNoteCommitment).toEqual(
-        await acirSimulator.computeInnerNoteHash(contractAddress, storageSlot, noteTypeId, changeNote.note),
+        await acirSimulator.computeNonSiloedNoteHash(contractAddress, storageSlot, noteTypeId, changeNote.note),
       );
 
       expect(recipientNote.note.items[0]).toEqual(new Fr(amountToTransfer));
@@ -440,7 +445,7 @@ describe('Private Execution test suite', () => {
       const newNullifiers = sideEffectArrayToValueArray(
         nonEmptySideEffects(result.callStackItem.publicInputs.newNullifiers),
       );
-      expect(newNullifiers).toEqual(consumedNotes.map(n => n.innerNullifier));
+      expect(newNullifiers).toEqual(consumedNotes.map(n => n.nonSiloedNullifier));
 
       expect(result.newNotes).toHaveLength(2);
       const [changeNote, recipientNote] = result.newNotes;
@@ -771,15 +776,15 @@ describe('Private Execution test suite', () => {
       const note = new Note([new Fr(amount), secretHash]);
       const noteHash = hashFields(note.items);
       const storageSlot = new Fr(5);
-      const innerNoteHash = hashFields([storageSlot, noteHash]);
-      const siloedNoteHash = siloNoteHash(contractAddress, innerNoteHash);
+      const nonSiloedNoteHash = hashFields([storageSlot, noteHash]);
+      const siloedNoteHash = siloNoteHash(contractAddress, nonSiloedNoteHash);
       oracle.getNotes.mockResolvedValue([
         {
           contractAddress,
           storageSlot,
           nonce: Fr.ZERO,
           note,
-          innerNoteHash: Fr.ZERO,
+          nonSiloedNoteHash: Fr.ZERO,
           siloedNullifier: Fr.random(),
           index: 1n,
         },
@@ -917,17 +922,17 @@ describe('Private Execution test suite', () => {
       const storageSlot = computeSlotForMapping(new Fr(1n), owner);
       const noteTypeId = new Fr(869710811710178111116101n); // ValueNote
 
-      const innerNoteHash = await acirSimulator.computeInnerNoteHash(
+      const nonSiloedNoteHash = await acirSimulator.computeNonSiloedNoteHash(
         contractAddress,
         storageSlot,
         noteTypeId,
         noteAndSlot.note,
       );
-      expect(noteHash).toEqual(innerNoteHash);
+      expect(noteHash).toEqual(nonSiloedNoteHash);
 
-      // read request should match innerNoteHash for pending notes (there is no nonce, so can't compute "unique" hash)
+      // read request should match nonSiloedNoteHash for pending notes (there is no nonce, so can't compute "unique" hash)
       const readRequest = sideEffectArrayToValueArray(result.callStackItem.publicInputs.readRequests)[0];
-      expect(readRequest).toEqual(innerNoteHash);
+      expect(readRequest).toEqual(nonSiloedNoteHash);
 
       const gotNoteValue = result.callStackItem.publicInputs.returnValues[0].value;
       expect(gotNoteValue).toEqual(amountToTransfer);
@@ -938,7 +943,7 @@ describe('Private Execution test suite', () => {
         contractAddress,
       );
       const expectedNullifier = hashFields([
-        innerNoteHash,
+        nonSiloedNoteHash,
         siloedNullifierSecretKey.low,
         siloedNullifierSecretKey.high,
       ]);
@@ -1006,17 +1011,17 @@ describe('Private Execution test suite', () => {
       expect(newNoteHashes).toHaveLength(1);
 
       const noteHash = newNoteHashes[0];
-      const innerNoteHash = await acirSimulator.computeInnerNoteHash(
+      const nonSiloedNoteHash = await acirSimulator.computeNonSiloedNoteHash(
         contractAddress,
         noteAndSlot.storageSlot,
         noteAndSlot.noteTypeId,
         noteAndSlot.note,
       );
-      expect(noteHash).toEqual(innerNoteHash);
+      expect(noteHash).toEqual(nonSiloedNoteHash);
 
-      // read request should match innerNoteHash for pending notes (there is no nonce, so can't compute "unique" hash)
+      // read request should match nonSiloedNoteHash for pending notes (there is no nonce, so can't compute "unique" hash)
       const readRequest = execGetThenNullify.callStackItem.publicInputs.readRequests[0];
-      expect(readRequest.value).toEqual(innerNoteHash);
+      expect(readRequest.value).toEqual(nonSiloedNoteHash);
 
       const gotNoteValue = execGetThenNullify.callStackItem.publicInputs.returnValues[0].value;
       expect(gotNoteValue).toEqual(amountToTransfer);
@@ -1027,7 +1032,7 @@ describe('Private Execution test suite', () => {
         contractAddress,
       );
       const expectedNullifier = hashFields([
-        innerNoteHash,
+        nonSiloedNoteHash,
         siloedNullifierSecretKey.low,
         siloedNullifierSecretKey.high,
       ]);
@@ -1071,7 +1076,7 @@ describe('Private Execution test suite', () => {
 
       const noteHash = newNoteHashes[0];
       expect(noteHash).toEqual(
-        await acirSimulator.computeInnerNoteHash(
+        await acirSimulator.computeNonSiloedNoteHash(
           contractAddress,
           storageSlot,
           noteAndSlot.noteTypeId,
