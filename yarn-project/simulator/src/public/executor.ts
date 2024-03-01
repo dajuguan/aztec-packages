@@ -3,6 +3,7 @@ import { createDebugLogger } from '@aztec/foundation/log';
 
 import { spawn } from 'child_process';
 import fs from 'fs/promises';
+import path from 'path';
 
 import { Oracle, acvm, extractCallStack, extractReturnWitness } from '../acvm/index.js';
 import { AvmContext } from '../avm/avm_context.js';
@@ -176,7 +177,7 @@ export class PublicExecutor {
   /**
    * These functions are currently housed in the temporary executor as it relies on access to
    * oracles like the contractsDB and this is the least intrusive way to achieve this.
-   * When we remove this executor and have an interface that is compatible with the kernel circuits,
+   * When we remove this executor(tracking issue #4792) and have an interface that is compatible with the kernel circuits,
    * this will be moved to sequencer-client/prover.
    */
 
@@ -191,31 +192,41 @@ export class PublicExecutor {
     // We additionally need the path to a valid crs for proof generation.
     const bbPath = '../../barretenberg/cpp';
     const writePath = '/tmp';
+
+    const calldataPath = path.join(writePath, 'calldata.bin');
+    const bytecodePath = path.join(writePath, 'avm_bytecode.bin');
+    const proofPath = path.join(writePath, 'proof');
+
     const { args, functionData, contractAddress } = avmExecution;
     const bytecode = await this.contractsDb.getBytecode(contractAddress, functionData.selector);
+    // Write call data and bytecode to files.
     await Promise.all([
       fs.writeFile(
-        `${writePath}/calldata.bin`,
+        calldataPath,
         args.map(c => c.toBuffer()),
       ),
-      fs.writeFile(`${writePath}/avm_bytecode.bin`, bytecode!),
+      fs.writeFile(bytecodePath, bytecode!),
     ]);
 
-    const bbBinary = spawn(`${bbPath}/build/bin/bb`, [
+    const bbBinary = spawn(path.join(bbPath, 'build', 'bin', 'bb'), [
       'avm_prove',
       '-b',
-      `${writePath}/avm_bytecode.bin`,
+      bytecodePath,
       '-d',
-      `${writePath}/calldata.bin`,
+      calldataPath,
       '-c',
-      `${bbPath}/srs_db/ignition`,
+      path.join(bbPath, 'srs_db', 'ignition'),
       '-o',
-      `${writePath}/proof`,
+      proofPath,
     ]);
     // The binary writes the proof and the verification key to the write path.
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       bbBinary.on('close', () => {
-        resolve(Promise.all([fs.readFile(`${writePath}/proof`), fs.readFile(`${writePath}/vk`)]));
+        resolve(Promise.all([fs.readFile(proofPath), fs.readFile(path.join(writePath, 'vk'))]));
+      });
+      // Catch and propagate errors from spawning
+      bbBinary.on('error', err => {
+        reject(err);
       });
     });
   }
@@ -230,23 +241,26 @@ export class PublicExecutor {
     // The relative paths for the barretenberg binary and the write path are hardcoded for now.
     const bbPath = '../../barretenberg/cpp';
     const writePath = '/tmp';
-    await Promise.all([fs.writeFile(`${writePath}/vk`, vk), fs.writeFile(`${writePath}/proof`, proof)]);
 
-    const bbBinary = spawn(`${bbPath}/build/bin/bb`, [
-      'avm_verify',
-      '-p',
-      `${writePath}/proof`,
-      '-vk',
-      `${writePath}/vk`,
-    ]);
+    const vkPath = path.join(writePath, 'vk');
+    const proofPath = path.join(writePath, 'proof');
+
+    // Write the verification key and the proof to files.
+    await Promise.all([fs.writeFile(vkPath, vk), fs.writeFile(proofPath, proof)]);
+
+    const bbBinary = spawn(path.join(bbPath, 'build', 'bin', 'bb'), ['avm_verify', '-p', proofPath]);
     // The binary prints to stdout 1 if the proof is valid and 0 if it is not.
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       let result = Buffer.alloc(0);
       bbBinary.stdout.on('data', data => {
         result += data;
       });
       bbBinary.on('close', () => {
         resolve(result.toString() === '1' ? true : false);
+      });
+      // Catch and propagate errors from spawning
+      bbBinary.on('error', err => {
+        reject(err);
       });
     });
   }

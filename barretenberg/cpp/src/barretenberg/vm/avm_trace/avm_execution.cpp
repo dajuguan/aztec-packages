@@ -57,6 +57,7 @@ std::tuple<AvmFlavor::VerificationKey, HonkProof> Execution::prove_vk(std::vecto
     // todo: Might need to return PCS vk when full verify is supported
     return std::make_tuple(*verifier.key, proof);
 }
+
 bool Execution::verify(AvmFlavor::VerificationKey vk, const HonkProof& proof)
 {
     auto verification_key = std::make_shared<AvmFlavor::VerificationKey>(vk);
