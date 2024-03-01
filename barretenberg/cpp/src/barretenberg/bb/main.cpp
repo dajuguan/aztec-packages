@@ -489,7 +489,7 @@ void avm_prove(const std::filesystem::path& bytecode_path,
 
     // Prove execution and return vk
     auto const [verification_key, proof] = avm_trace::Execution::prove_vk(avm_bytecode, call_data);
-    // todo: Currently we only need these two parts of the vk, look into pcs_verification key reqs
+    // todo<#4887>: Currently we only need these two parts of the vk, look into pcs_verification key reqs
     std::vector<size_t> vk_vector = { verification_key.circuit_size, verification_key.num_public_inputs };
 
     std::filesystem::path output_vk_path = output_path.parent_path() / "vk";
