@@ -26,7 +26,38 @@ export type ProcessedTx = Pick<Tx, 'proof' | 'encryptedLogs' | 'unencryptedLogs'
    * Flag indicating the tx is 'empty' meaning it's a padding tx to take us to a power of 2.
    */
   isEmpty: boolean;
+
+  /**
+   * Reason the tx was reverted.
+   */
+  revertReason: Error | undefined;
 };
+
+export type RevertedTx = ProcessedTx & {
+  data: PublicKernelCircuitPublicInputs & {
+    reverted: true;
+  };
+
+  revertReason: Error;
+};
+
+export function isRevertedTx(tx: ProcessedTx): tx is RevertedTx {
+  return tx.data.reverted;
+}
+
+export function partitionReverts(txs: ProcessedTx[]): { reverted: RevertedTx[]; nonReverted: ProcessedTx[] } {
+  return txs.reduce(
+    ({ reverted, nonReverted }, tx) => {
+      if (isRevertedTx(tx)) {
+        reverted.push(tx);
+      } else {
+        nonReverted.push(tx);
+      }
+      return { reverted, nonReverted };
+    },
+    { reverted: [], nonReverted: [] } as ReturnType<typeof partitionReverts>,
+  );
+}
 
 /**
  * Represents a tx that failed to be processed by the sequencer public processor.
@@ -93,7 +124,12 @@ export function getPreviousOutputAndProof(
  * @param kernelOutput - Output of the kernel circuit simulation for this tx.
  * @param proof - Proof of the kernel circuit for this tx.
  */
-export function makeProcessedTx(tx: Tx, kernelOutput?: PublicKernelCircuitPublicInputs, proof?: Proof): ProcessedTx {
+export function makeProcessedTx(
+  tx: Tx,
+  kernelOutput?: PublicKernelCircuitPublicInputs,
+  proof?: Proof,
+  revertReason?: Error,
+): ProcessedTx {
   const { publicKernelPublicInput, previousProof } = getPreviousOutputAndProof(tx, kernelOutput, proof);
   return {
     hash: tx.getTxHash(),
@@ -103,6 +139,7 @@ export function makeProcessedTx(tx: Tx, kernelOutput?: PublicKernelCircuitPublic
     unencryptedLogs: tx.unencryptedLogs,
     newContracts: tx.newContracts,
     isEmpty: false,
+    revertReason,
   };
 }
 
@@ -126,5 +163,6 @@ export function makeEmptyProcessedTx(header: Header, chainId: Fr, version: Fr): 
     proof: emptyProof,
     newContracts: [ExtendedContractData.empty()],
     isEmpty: true,
+    revertReason: undefined,
   };
 }

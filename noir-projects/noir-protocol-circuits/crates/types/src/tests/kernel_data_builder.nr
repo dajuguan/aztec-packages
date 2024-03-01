@@ -141,6 +141,11 @@ impl PreviousKernelDataBuilder {
         first_nullifier.value + nullifier_index as Field
     }
 
+    fn get_mock_nullifier_value_non_revertible(self, nullifier_index: u64) -> Field {
+        let first_nullifier = self.end_non_revertible.new_nullifiers.get(0);
+        first_nullifier.value + nullifier_index as Field
+    }
+
     pub fn append_new_nullifiers_from_private(&mut self, num_extra_nullifier: u64) {
         // in private kernel, the nullifiers have not yet been partitioned
         // (that is part of the job of the private kernel tail)
@@ -166,7 +171,7 @@ impl PreviousKernelDataBuilder {
             if i as u64 <= num_extra_nullifier as u64 {
                 self.end.new_nullifiers.push(
                     SideEffectLinkedToNoteHash {
-                    value: self.get_mock_nullifier_value(index_offset + i),
+                    value: self.get_mock_nullifier_value_non_revertible(index_offset + i),
                     note_hash: 0,
                     counter: self.next_sideffect_counter()
                 }

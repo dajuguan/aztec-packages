@@ -104,12 +104,14 @@ export class PublicProcessor {
       );
       this.log(`Beginning processing in phase ${phase?.phase} for tx ${tx.getTxHash()}`);
       let { publicKernelPublicInput, previousProof: proof } = getPreviousOutputAndProof(tx, undefined, undefined);
+      let revertReason: Error | undefined;
       const timer = new Timer();
       try {
         while (phase) {
           const output = await phase.handle(tx, publicKernelPublicInput, proof);
           publicKernelPublicInput = output.publicKernelOutput;
           proof = output.publicKernelProof;
+          revertReason ??= output.revertReason;
           phase = PhaseManagerFactory.phaseFromOutput(
             publicKernelPublicInput,
             phase,
@@ -124,7 +126,7 @@ export class PublicProcessor {
           );
         }
 
-        const processedTransaction = makeProcessedTx(tx, publicKernelPublicInput, proof);
+        const processedTransaction = makeProcessedTx(tx, publicKernelPublicInput, proof, revertReason);
         result.push(processedTransaction);
 
         this.log(`Processed public part of ${tx.data.endNonRevertibleData.newNullifiers[0].value}`, {

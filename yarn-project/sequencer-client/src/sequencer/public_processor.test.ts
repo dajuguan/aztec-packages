@@ -116,7 +116,7 @@ describe('public_processor', () => {
       expect(processed.length).toBe(1);
 
       const p = processed[0];
-      const e = {
+      const e: ProcessedTx = {
         hash,
         data: new PublicKernelCircuitPublicInputs(
           tx.data.aggregationObject,
@@ -133,6 +133,7 @@ describe('public_processor', () => {
         unencryptedLogs: tx.unencryptedLogs,
         newContracts: tx.newContracts,
         isEmpty: false,
+        revertReason: undefined,
       };
 
       // Jest is complaining that the two objects are not equal, but they are.

@@ -100,6 +100,10 @@ export abstract class AbstractPhaseManager {
      * the proof of the public kernel circuit for this phase
      */
     publicKernelProof: Proof;
+    /**
+     * revert reason, if any
+     */
+    revertReason: Error | undefined;
   }>;
   abstract rollback(tx: Tx, err: unknown): Promise<FailedTx>;
 
@@ -160,14 +164,14 @@ export abstract class AbstractPhaseManager {
     tx: Tx,
     previousPublicKernelOutput: PublicKernelCircuitPublicInputs,
     previousPublicKernelProof: Proof,
-  ): Promise<[PublicKernelCircuitPublicInputs, Proof, FunctionL2Logs[]]> {
+  ): Promise<[PublicKernelCircuitPublicInputs, Proof, FunctionL2Logs[], Error | undefined]> {
     let kernelOutput = previousPublicKernelOutput;
     let kernelProof = previousPublicKernelProof;
 
     const enqueuedCalls = this.extractEnqueuedPublicCalls(tx);
 
     if (!enqueuedCalls || !enqueuedCalls.length) {
-      return [kernelOutput, kernelProof, []];
+      return [kernelOutput, kernelProof, [], undefined];
     }
 
     const newUnencryptedFunctionLogs: FunctionL2Logs[] = [];
@@ -207,7 +211,7 @@ export abstract class AbstractPhaseManager {
         if (kernelOutput.reverted) {
           // halt immediately if the public kernel circuit has reverted.
           // return no logs, as they should not go on-chain.
-          return [kernelOutput, kernelProof, []];
+          return [kernelOutput, kernelProof, [], result.revertReason];
         }
 
         if (!enqueuedExecutionResult) {
@@ -222,7 +226,7 @@ export abstract class AbstractPhaseManager {
     // TODO(#3675): This should be done in a public kernel circuit
     removeRedundantPublicDataWrites(kernelOutput);
 
-    return [kernelOutput, kernelProof, newUnencryptedFunctionLogs];
+    return [kernelOutput, kernelProof, newUnencryptedFunctionLogs, undefined];
   }
 
   protected async runKernelCircuit(

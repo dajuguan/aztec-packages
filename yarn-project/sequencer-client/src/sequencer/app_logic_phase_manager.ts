@@ -27,20 +27,11 @@ export class AppLogicPhaseManager extends AbstractPhaseManager {
     super(db, publicExecutor, publicKernel, publicProver, globalVariables, historicalHeader, phase);
   }
 
-  async handle(
+  override async handle(
     tx: Tx,
     previousPublicKernelOutput: PublicKernelCircuitPublicInputs,
     previousPublicKernelProof: Proof,
-  ): Promise<{
-    /**
-     * the output of the public kernel circuit for this phase
-     */
-    publicKernelOutput: PublicKernelCircuitPublicInputs;
-    /**
-     * the proof of the public kernel circuit for this phase
-     */
-    publicKernelProof: Proof;
-  }> {
+  ) {
     // add new contracts to the contracts db so that their functions may be found and called
     // TODO(#4073): This is catching only private deployments, when we add public ones, we'll
     // have to capture contracts emitted in that phase as well.
@@ -48,17 +39,14 @@ export class AppLogicPhaseManager extends AbstractPhaseManager {
     this.log(`Processing tx ${tx.getTxHash()}`);
     await this.publicContractsDB.addNewContracts(tx);
     this.log(`Executing enqueued public calls for tx ${tx.getTxHash()}`);
-    const [publicKernelOutput, publicKernelProof, newUnencryptedFunctionLogs] = await this.processEnqueuedPublicCalls(
-      tx,
-      previousPublicKernelOutput,
-      previousPublicKernelProof,
-    );
+    const [publicKernelOutput, publicKernelProof, newUnencryptedFunctionLogs, revertReason] =
+      await this.processEnqueuedPublicCalls(tx, previousPublicKernelOutput, previousPublicKernelProof);
     tx.unencryptedLogs.addFunctionLogs(newUnencryptedFunctionLogs);
 
     // commit the state updates from this transaction
     await this.publicStateDB.commit();
 
-    return { publicKernelOutput, publicKernelProof };
+    return { publicKernelOutput, publicKernelProof, revertReason };
   }
 
   async rollback(tx: Tx, err: unknown): Promise<FailedTx> {
